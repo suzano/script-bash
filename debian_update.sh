@@ -37,8 +37,8 @@
 
 # 1. Verifica se existe conexao com a internet
 echo "Verificando conexão com a Internet..."
-ping -c 2 google.com &> /dev/null
-if [ $? -eq 0 ]; then
+ping -c 2 google.com &> /dev/null #¹
+if [ $? -eq 0 ]; then #²
     echo "Conexão com a Internet estável."
 else
     echo "Sem conexão com a Internet. Verifique a rede e tente novamente."
@@ -97,3 +97,6 @@ fi
 echo "Reiniciando o sistema em 10 segundos. Pressione Ctrl+C para cancelar."
 sleep 10
 sudo reboot
+
+#¹ O comando "&>/dev/null" redireciona a saída e os erros de um programa para o arquivo especial "/dev/null", que descarta intencionalmente qualquer dado enviado para ele.
+#² A variável "$?" armazena o status de saída do último comando executado.
