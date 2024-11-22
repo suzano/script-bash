@@ -18,11 +18,10 @@
 #   - O ClamAV deve estar configurado corretamente no sistema.
 #
 # Features:
-#   - Verifica se o ClamAV está instalado.
-#   - Instala o ClamAV caso não esteja presente.
-#   - Atualiza a base de dados de vírus.
-#   - Realiza uma verificação completa no sistema.
-#   - Coloca em quarentena os arquivos encontrados com vírus ou outras ameaças.
+#   1. Verifica se o clamav está instalado
+#   2. Verifica e atualiza a base de dados de vírus
+#   3. Iniciar a verificacao completa do sistema
+#   4. Verificar se a verificação encontrou ameaças
 #
 # Example:
 #   ./debian_clamav.sh
