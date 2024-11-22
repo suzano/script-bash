@@ -4,7 +4,6 @@
 # Script Name:  debian_update.sh
 # Description:  Faz a atualizacao do Debian e limpeza dos pacotes baixados
 #               ou desnecessário para o sistema.
-#
 # Author: Suzano Bitencourt
 # Date: 20/11/2024
 # Version: 1.0

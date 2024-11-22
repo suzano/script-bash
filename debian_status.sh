@@ -2,9 +2,8 @@
 
 ################################################################################
 # Script Name:  debian_status.sh
-# Description:  Faz a atualizacao do Debian e limpeza dos pacotes baixados
-#               ou desnecessário para o sistema.
-#
+# Description:  Faz a coleta de informacoes do Debian e manda por e-mail as
+#               informacoes, com temperatura da CPU, uso de memoria e outros.
 # Author: Suzano Bitencourt
 # Date: 20/11/2024
 # Version: 1.0
@@ -14,8 +13,9 @@
 #
 # Requirements:
 #   - O script deve ser executado com privilégios de superusuário (root).
-#   - O apt é um sistema de gerenciamento de pacotes de programas padrão para 
-#       sistemas operacionais baseados em Debian e Ubuntu. 
+#   - mailutils
+#   - postfix
+#   - lm-sensors
 #
 # Features:
 #   1. Verifica se existe conexao com a internet
