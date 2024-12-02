@@ -59,16 +59,17 @@ sudo service clamav-freshclam stop
 sudo rm -f /usr/local/etc/freshclam.conf
 sudo ln -s /etc/clamav/freshclam.conf /usr/local/etc/freshclam.conf
 sudo rm /var/log/clamav/freshclam.log
-sudo freshclam --quiet
+#sudo freshclam --quiet
+sudo freshclam 
 sudo service clamav-freshclam start
-echo "Atualizada"
+echo "Base de dados atualizada."
 echo ""
 
 # 3. Iniciar a verificacao completa do sistema
 echo "3. Iniciando a verificacao completa de virus..."
 sudo mkdir -p /tmp/quarentena #³  
 sudo clamscan -r / --bell -i --move=/tmp/quarentena 
-echo "Verificacao completada"
+echo "Verificacao completa."
 echo ""
 
 # 4. Verificar se a verificação encontrou ameaças
