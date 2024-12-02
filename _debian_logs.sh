@@ -35,76 +35,37 @@
 #
 ################################################################################
 
-# 1. Verifica se existe conexao com a internet
-clear
-echo "1. Verificando conexão com a Internet..."
-ping -c 2 google.com &> /dev/null #¹
-if [ $? -eq 0 ]; then #²
-    echo "Conexão com a Internet estável."
+# Diretório de logs do sistema
+DIR_LOGS="/var/log"
+DIR_ARQUIVOS="/var/backup_logs"
+
+# Dias para considerar logs antigos
+DIAS_ANTIGOS=7
+
+# Criar o diretório de backup, se não existir
+if [ ! -d "$DIR_ARQUIVOS" ]; then
+    mkdir -p "$DIR_ARQUIVOS"
+fi
+
+# Compactar logs antigos
+echo "Compactando logs antigos (mais de $DIAS_ANTIGOS dias)..."
+find "$DIR_LOGS" -type f -mtime +$DIAS_ANTIGOS -name "*.log" -exec tar -rvf "$DIR_ARQUIVOS/logs_antigos_$(date +%Y-%m-%d).tar.gz" {} +
+
+# Verificar se a compactação foi bem-sucedida
+if [ $? -eq 0 ]; then
+    echo "Compactação concluída com sucesso!"
 else
-    echo "Sem conexão com a Internet. Verifique a rede e tente novamente."
+    echo "Erro ao compactar os logs."
     exit 1
 fi
-echo ""
 
-# 2. Atualiza o repositorio
-echo "2. Atualizando repositórios..."
-sudo apt update -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao atualizar repositórios. Verifique a configuração do apt."
-    exit 1
-fi
-echo ""
+# Remover logs antigos após o backup
+echo "Removendo logs antigos..."
+find "$DIR_LOGS" -type f -mtime +$DIAS_ANTIGOS -name "*.log" -exec rm -f {} +
 
-# 3. Repara pacotes quebrados
-echo "3. Reparando pacotes quebrados..."
-sudo dpkg --configure -a
-if [ $? -ne 0 ]; then
-    echo "Erro ao reparar pacotes quebrados. Tente usar o comando: sudo dpkg --force-remove-reinstreq --remove <pacote>."
-    exit 1
-fi
-echo ""
+# Limpar logs rotacionados
+echo "Limpando logs rotacionados..."
+find "$DIR_LOGS" -type f -name "*.gz" -exec rm -f {} +
 
-# 4. Atualiza o sistema
-echo "4. Atualizando o sistema..."
-sudo apt upgrade -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao atualizar o sistema. Verifique a configuração ou os pacotes instalados."
-    exit 1
-fi
-echo ""
-
-# 5. Remove pacotes baixados pelo APT
-echo "5. Removendos todos os pacotes baixados pelo APT..."
-sudo apt clean -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao remover pacotes baixados pelo APT."
-    exit 1
-fi
-echo ""
-
-# 6. Remove pacotes que não tiveram seu download concluído
-echo "6. Removendo pacotes incompletos..."
-sudo apt autoclean -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao remover pacotes incompletos."
-    exit 1
-fi
-echo ""
-
-# 7. Remove dependências que não são mais necessárias pelo sistema
-echo "7. Removendo dependências que não são mais necessárias pelo sistema..."
-sudo apt autoremove -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao remover dependências que não são mais necessárias pelo sistema."
-    exit 1
-fi
-echo ""
-
-# 8. Reinicia o sistema
-echo "8. Reiniciando o sistema em 10 segundos. Pressione Ctrl+C para cancelar."
-sleep 10
-sudo reboot
-
-#¹ O comando "&>/dev/null" redireciona a saída e os erros de um programa para o arquivo especial "/dev/null", que descarta intencionalmente qualquer dado enviado para ele.
-#² A variável "$?" armazena o status de saída do último comando executado.
+# Finalizar
+echo "Processo de gerenciamento de logs concluído. Logs antigos armazenados em $DIR_ARQUIVOS."
