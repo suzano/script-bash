@@ -35,76 +35,49 @@
 #
 ################################################################################
 
-# 1. Verifica se existe conexao com a internet
-clear
-echo "1. Verificando conexão com a Internet..."
-ping -c 2 google.com &> /dev/null #¹
-if [ $? -eq 0 ]; then #²
-    echo "Conexão com a Internet estável."
+# Configurações
+ARQUIVO_RELATORIO="/tmp/relatorio_inventario_$(hostname)_$(date +%Y-%m-%d).txt"
+EMAIL_DESTINO="seuemail@exemplo.com"
+ASSUNTO="Relatório de Inventário - $(hostname) - $(date)"
+
+# Coletar informações do hardware
+echo "Coletando informações do hardware..." > "$ARQUIVO_RELATORIO"
+echo "=== Informações do Hardware ===" >> "$ARQUIVO_RELATORIO"
+lshw -short >> "$ARQUIVO_RELATORIO" 2>/dev/null || echo "lshw não está instalado." >> "$ARQUIVO_RELATORIO"
+echo "" >> "$ARQUIVO_RELATORIO"
+
+# Coletar informações da CPU
+echo "=== Informações da CPU ===" >> "$ARQUIVO_RELATORIO"
+lscpu >> "$ARQUIVO_RELATORIO"
+echo "" >> "$ARQUIVO_RELATORIO"
+
+# Coletar informações de memória
+echo "=== Informações de Memória ===" >> "$ARQUIVO_RELATORIO"
+free -h >> "$ARQUIVO_RELATORIO"
+echo "" >> "$ARQUIVO_RELATORIO"
+
+# Coletar informações de disco
+echo "=== Informações do Disco ===" >> "$ARQUIVO_RELATORIO"
+df -h >> "$ARQUIVO_RELATORIO"
+echo "" >> "$ARQUIVO_RELATORIO"
+
+# Coletar informações de software
+echo "=== Informações de Software Instalado ===" >> "$ARQUIVO_RELATORIO"
+dpkg-query -l >> "$ARQUIVO_RELATORIO"
+echo "" >> "$ARQUIVO_RELATORIO"
+
+# Exibir o relatório no terminal (opcional)
+cat "$ARQUIVO_RELATORIO"
+
+# Enviar por e-mail (opcional)
+if command -v mail &>/dev/null; then
+    echo "Enviando relatório por e-mail..."
+    mail -s "$ASSUNTO" "$EMAIL_DESTINO" < "$ARQUIVO_RELATORIO"
+    if [ $? -eq 0 ]; then
+        echo "E-mail enviado com sucesso para $EMAIL_DESTINO."
+    else
+        echo "Erro ao enviar o e-mail."
+    fi
 else
-    echo "Sem conexão com a Internet. Verifique a rede e tente novamente."
-    exit 1
+    echo "Comando 'mail' não encontrado. Instale-o para habilitar o envio de e-mails."
 fi
-echo ""
-
-# 2. Atualiza o repositorio
-echo "2. Atualizando repositórios..."
-sudo apt update -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao atualizar repositórios. Verifique a configuração do apt."
-    exit 1
-fi
-echo ""
-
-# 3. Repara pacotes quebrados
-echo "3. Reparando pacotes quebrados..."
-sudo dpkg --configure -a
-if [ $? -ne 0 ]; then
-    echo "Erro ao reparar pacotes quebrados. Tente usar o comando: sudo dpkg --force-remove-reinstreq --remove <pacote>."
-    exit 1
-fi
-echo ""
-
-# 4. Atualiza o sistema
-echo "4. Atualizando o sistema..."
-sudo apt upgrade -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao atualizar o sistema. Verifique a configuração ou os pacotes instalados."
-    exit 1
-fi
-echo ""
-
-# 5. Remove pacotes baixados pelo APT
-echo "5. Removendos todos os pacotes baixados pelo APT..."
-sudo apt clean -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao remover pacotes baixados pelo APT."
-    exit 1
-fi
-echo ""
-
-# 6. Remove pacotes que não tiveram seu download concluído
-echo "6. Removendo pacotes incompletos..."
-sudo apt autoclean -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao remover pacotes incompletos."
-    exit 1
-fi
-echo ""
-
-# 7. Remove dependências que não são mais necessárias pelo sistema
-echo "7. Removendo dependências que não são mais necessárias pelo sistema..."
-sudo apt autoremove -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao remover dependências que não são mais necessárias pelo sistema."
-    exit 1
-fi
-echo ""
-
-# 8. Reinicia o sistema
-echo "8. Reiniciando o sistema em 10 segundos. Pressione Ctrl+C para cancelar."
-sleep 10
-sudo reboot
-
-#¹ O comando "&>/dev/null" redireciona a saída e os erros de um programa para o arquivo especial "/dev/null", que descarta intencionalmente qualquer dado enviado para ele.
-#² A variável "$?" armazena o status de saída do último comando executado.
