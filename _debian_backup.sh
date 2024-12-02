@@ -36,76 +36,31 @@
 #
 ################################################################################
 
-# 1. Verifica se existe conexao com a internet
-clear
-echo "1. Verificando conexão com a Internet..."
-ping -c 2 google.com &> /dev/null #¹
-if [ $? -eq 0 ]; then #²
-    echo "Conexão com a Internet estável."
+# Diretórios a serem incluídos no backup
+ORIGENS=("/caminho/diretorio1" "/caminho/diretorio2")
+
+# Diretório de destino para o backup
+DESTINO="/caminho/backup"
+
+# Nome do arquivo de backup com a data
+DATA=$(date +'%Y-%m-%d')
+ARQUIVO_BACKUP="backup_$DATA.tar.gz"
+
+# Criar o diretório de destino, se não existir
+if [ ! -d "$DESTINO" ]; then
+    mkdir -p "$DESTINO"
+fi
+
+# Compactar e criar o backup
+echo "Iniciando o backup..."
+tar -czf "$DESTINO/$ARQUIVO_BACKUP" "${ORIGENS[@]}"
+if [ $? -eq 0 ]; then
+    echo "Backup concluído com sucesso! Arquivo salvo em: $DESTINO/$ARQUIVO_BACKUP"
 else
-    echo "Sem conexão com a Internet. Verifique a rede e tente novamente."
+    echo "Erro ao criar o backup."
     exit 1
 fi
-echo ""
 
-# 2. Atualiza o repositorio
-echo "2. Atualizando repositórios..."
-sudo apt update -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao atualizar repositórios. Verifique a configuração do apt."
-    exit 1
-fi
-echo ""
-
-# 3. Repara pacotes quebrados
-echo "3. Reparando pacotes quebrados..."
-sudo dpkg --configure -a
-if [ $? -ne 0 ]; then
-    echo "Erro ao reparar pacotes quebrados. Tente usar o comando: sudo dpkg --force-remove-reinstreq --remove <pacote>."
-    exit 1
-fi
-echo ""
-
-# 4. Atualiza o sistema
-echo "4. Atualizando o sistema..."
-sudo apt upgrade -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao atualizar o sistema. Verifique a configuração ou os pacotes instalados."
-    exit 1
-fi
-echo ""
-
-# 5. Remove pacotes baixados pelo APT
-echo "5. Removendos todos os pacotes baixados pelo APT..."
-sudo apt clean -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao remover pacotes baixados pelo APT."
-    exit 1
-fi
-echo ""
-
-# 6. Remove pacotes que não tiveram seu download concluído
-echo "6. Removendo pacotes incompletos..."
-sudo apt autoclean -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao remover pacotes incompletos."
-    exit 1
-fi
-echo ""
-
-# 7. Remove dependências que não são mais necessárias pelo sistema
-echo "7. Removendo dependências que não são mais necessárias pelo sistema..."
-sudo apt autoremove -y
-if [ $? -ne 0 ]; then
-    echo "Erro ao remover dependências que não são mais necessárias pelo sistema."
-    exit 1
-fi
-echo ""
-
-# 8. Reinicia o sistema
-echo "8. Reiniciando o sistema em 10 segundos. Pressione Ctrl+C para cancelar."
-sleep 10
-sudo reboot
-
-#¹ O comando "&>/dev/null" redireciona a saída e os erros de um programa para o arquivo especial "/dev/null", que descarta intencionalmente qualquer dado enviado para ele.
-#² A variável "$?" armazena o status de saída do último comando executado.
+# Registro no log
+LOG_FILE="/var/log/backup.log"
+echo "$(date) - Backup realizado: $ARQUIVO_BACKUP" >> "$LOG_FILE"
