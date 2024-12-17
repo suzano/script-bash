@@ -17,14 +17,15 @@
 #       sistemas operacionais baseados em Debian e Ubuntu. 
 #
 # Features:
-#   1. Verifica se existe conexao com a internet
-#   2. Atualiza o repositorio
-#   3. Repara pacotes quebrados
-#   4. Atualiza o sistema
-#   5. Remove pacotes baixados pelo APT
-#   6. Remove pacotes que não tiveram seu download concluído
-#   7. Remove dependências que não são mais necessárias pelo sistema
-#   8. Reinicia o sistema
+#   1. Verifica se o script está sendo executado como root
+#   2. Verifica se existe conexao com a internet
+#   3. Atualiza o repositorio
+#   4. Repara pacotes quebrados
+#   5. Atualiza o sistema
+#   6. Remove pacotes baixados pelo APT
+#   7. Remove pacotes que não tiveram seu download concluído
+#   8. Remove dependências que não são mais necessárias pelo sistema
+#   9. Reinicia o sistema
 #
 # Example:
 #   ./debian_update.sh
@@ -34,7 +35,13 @@
 #
 ################################################################################
 
-# 1. Verifica se existe conexao com a internet
+# 1. Verifica se o script está sendo executado como root
+if [ "$EUID" -ne 0 ]; then
+    echo "Erro: Este script deve ser executado como root."
+    exit 1
+fi
+
+# 2. Verifica se existe conexao com a internet
 clear
 echo "1. Verificando conexão com a Internet..."
 ping -c 2 google.com &> /dev/null #¹
@@ -46,7 +53,7 @@ else
 fi
 echo ""
 
-# 2. Atualiza o repositorio
+# 3. Atualiza o repositorio
 echo "2. Atualizando repositórios..."
 sudo apt update -y
 if [ $? -ne 0 ]; then
@@ -55,7 +62,7 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 
-# 3. Repara pacotes quebrados
+# 4. Repara pacotes quebrados
 echo "3. Reparando pacotes quebrados..."
 sudo dpkg --configure -a
 if [ $? -ne 0 ]; then
@@ -64,7 +71,7 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 
-# 4. Atualiza o sistema
+# 5. Atualiza o sistema
 echo "4. Atualizando o sistema..."
 sudo apt upgrade -y
 if [ $? -ne 0 ]; then
@@ -73,7 +80,7 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 
-# 5. Remove pacotes baixados pelo APT
+# 6. Remove pacotes baixados pelo APT
 echo "5. Removendos todos os pacotes baixados pelo APT..."
 sudo apt clean -y
 if [ $? -ne 0 ]; then
@@ -82,7 +89,7 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 
-# 6. Remove pacotes que não tiveram seu download concluído
+# 7. Remove pacotes que não tiveram seu download concluído
 echo "6. Removendo pacotes incompletos..."
 sudo apt autoclean -y
 if [ $? -ne 0 ]; then
@@ -91,7 +98,7 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 
-# 7. Remove dependências que não são mais necessárias pelo sistema
+# 8. Remove dependências que não são mais necessárias pelo sistema
 echo "7. Removendo dependências que não são mais necessárias pelo sistema..."
 sudo apt autoremove -y
 if [ $? -ne 0 ]; then
@@ -100,7 +107,7 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 
-# 8. Reinicia o sistema
+# 9. Reinicia o sistema
 echo "8. Reiniciando o sistema em 10 segundos. Pressione Ctrl+C para cancelar."
 sleep 10
 sudo reboot
