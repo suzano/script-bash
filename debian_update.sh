@@ -17,15 +17,15 @@
 #       sistemas operacionais baseados em Debian e Ubuntu. 
 #
 # Features:
-#   1. Verifica se o script está sendo executado como root
-#   2. Verifica se existe conexao com a internet
-#   3. Atualiza o repositorio
-#   4. Repara pacotes quebrados
-#   5. Atualiza o sistema
-#   6. Remove pacotes baixados pelo APT
-#   7. Remove pacotes que não tiveram seu download concluído
-#   8. Remove dependências que não são mais necessárias pelo sistema
-#   9. Reinicia o sistema
+#   0. Verifica se o script está sendo executado como root
+#   1. Verifica se existe conexao com a internet
+#   2. Atualiza o repositorio
+#   3. Repara pacotes quebrados
+#   4. Atualiza o sistema
+#   5. Remove pacotes baixados pelo APT
+#   6. Remove pacotes que não tiveram seu download concluído
+#   7. Remove dependências que não são mais necessárias pelo sistema
+#   8. Reinicia o sistema
 #
 # Example:
 #   ./debian_update.sh
