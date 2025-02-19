@@ -16,6 +16,7 @@
 #   - Ghostscript instalado (comando `gs`).
 #
 # Features:
+#   0. Verifica se o script está sendo executado como root
 #   1. Verificar se o Ghostscript está instalado
 #   2. Verificar se os argumentos foram fornecidos
 #   3. Verificar se o arquivo de entrada existe
@@ -30,14 +31,27 @@
 #
 ################################################################################
 
-# Verificar se o Ghostscript está instalado
+# 0. Verifica se o script está sendo executado como root
+if [ "$EUID" -ne 0 ]; then
+    echo "Erro: Este script deve ser executado como root."
+    exit 1
+fi
+echo ""
+
+# 1. Verificar se o Ghostscript está instalado
+clear
+echo "1. Verificando se o Ghostscript está instalado..."
 if ! command -v gs &> /dev/null; then
     echo "Erro: O Ghostscript não está instalado. Instale-o com:"
     echo "      sudo apt install ghostscript"
     exit 1
+else
+    echo "Ghostscript já está instalado."
 fi
+echo ""
 
-# Verificar se os argumentos foram fornecidos
+# 2. Verificar se os argumentos foram fornecidos
+echo "2. Verificando se os argumentos foram fornecidos..."
 if [ "$#" -ne 2 ]; then
     echo "Uso: $0 <arquivo_entrada.pdf> <arquivo_saida.pdf>"
     exit 1
@@ -46,19 +60,19 @@ fi
 ARQUIVO_ENTRADA="$1"
 ARQUIVO_SAIDA="$2"
 
-# Verificar se o arquivo de entrada existe
+# 3. Verificar se o arquivo de entrada existe
 if [ ! -f "$ARQUIVO_ENTRADA" ]; then
     echo "Erro: O arquivo de entrada '$ARQUIVO_ENTRADA' não foi encontrado."
     exit 1
 fi
 
-# Comprimir o PDF usando Ghostscript
+# 4. Comprimir o PDF usando Ghostscript
 echo "Comprimindo '$ARQUIVO_ENTRADA' para '$ARQUIVO_SAIDA'..."
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook \
    -dNOPAUSE -dQUIET -dBATCH \
    -sOutputFile="$ARQUIVO_SAIDA" "$ARQUIVO_ENTRADA"
 
-# Verificar se a compressão foi bem-sucedida
+# 5. Verificar se a compressão foi bem-sucedida
 if [ $? -eq 0 ]; then
     echo "Arquivo comprimido com sucesso: '$ARQUIVO_SAIDA'"
 else
