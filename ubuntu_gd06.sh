@@ -2,7 +2,7 @@
 
 ################################################################################
 # Script Name:  ubuntu_gd06.sh
-# Description:  Faz a atualizacao do Debian e limpeza dos pacotes baixados
+# Description:  Faz a atualizacao do Ubuntu e limpeza dos pacotes baixados
 #               ou desnecessário para o sistema.
 # Author: Suzano Bitencourt
 # Date: 27/03/2025
