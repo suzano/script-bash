@@ -28,7 +28,7 @@
 #   8. Reinicia o sistema
 #
 # Example:
-#   ./debian_update.sh
+#   sudo ./debian_update.sh
 #
 # Notes:
 #   - Nenhuma observacao ou erro relatado no funcionamento do script.
