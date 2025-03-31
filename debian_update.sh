@@ -67,6 +67,7 @@ echo ""
 # 3. Repara pacotes quebrados
 echo "3. Reparando pacotes quebrados..."
 sudo dpkg --configure -a
+sudo apt --fix-broken install
 if [ $? -ne 0 ]; then
     echo "Erro ao reparar pacotes quebrados. Tente usar o comando: sudo dpkg --force-remove-reinstreq --remove <pacote>."
     exit 1
@@ -78,6 +79,7 @@ echo ""
 # 4. Atualiza o sistema
 echo "4. Atualizando o sistema..."
 sudo apt upgrade -y
+# sudo apt dist-upgrade -y
 if [ $? -ne 0 ]; then
     echo "Erro ao atualizar o sistema. Verifique a configuração ou os pacotes instalados."
     exit 1
@@ -119,8 +121,26 @@ else
 fi
 echo ""
 
-# 8. Reinicia o sistema
-echo "8. Reiniciando o sistema em 10 segundos. Pressione Ctrl+C para cancelar."
+# 8 - Instala e atualiza programas específicos
+programas=("htop" "neofetch" "cmatrix")
+
+echo "8. Verificando e instalando/atualizando programas..."
+for programa in "${programas[@]}"; do
+  echo "Verificando o programa: $programa"
+  if dpkg -s "$programa" > /dev/null 2>&1; then
+    echo "$programa está instalado."
+    # Tenta reinstalar para garantir a versão mais recente
+    echo "Reinstalando $programa para garantir a versão mais recente..."
+    sudo apt install --reinstall -y "$programa"
+  else
+    echo "$programa não está instalado. Instalando..."
+    sudo apt install -y "$programa"
+  fi
+done
+echo ""
+
+# 9. Reinicia o sistema
+echo "9. Reiniciando o sistema em 10 segundos. Pressione Ctrl+C para cancelar."
 sleep 10
 sudo reboot
 
