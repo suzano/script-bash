@@ -57,7 +57,7 @@ clear
 echo -e "${AMARELO}${NEGRITO}1. Verificando conexão com a Internet...${NORMAL}"
 ping -c 2 google.com &> /dev/null #¹
 if [ $? -eq 0 ]; then #²
-    echo -e "${VERDE}Conexão com a Internet estável.${NORMAL}"
+    echo -e "${CIANO}Conexão com a Internet estável.${NORMAL}"
 else
     echo -e "${VERMELHO}Sem conexão com a Internet. Verifique a rede e tente novamente.${NORMAL}"
     exit 1
@@ -71,7 +71,7 @@ if [ $? -ne 0 ]; then
     echo -e "${VERMELHO}Erro ao atualizar repositórios. Verifique a configuração do apt.${NORMAL}"
     exit 1
 else
-    echo -e "${VERDE}Repositórios atualizados com sucesso.${NORMAL}"
+    echo -e "${CIANO}Repositórios atualizados com sucesso.${NORMAL}"
 fi
 echo ""
 
@@ -83,7 +83,7 @@ if [ $? -ne 0 ]; then
     echo -e "${VERMELHO}Erro ao reparar pacotes quebrados. Tente usar o comando: sudo dpkg --force-remove-reinstreq --remove <pacote>.${NORMAL}"
     exit 1
 else
-    echo -e "${VERDE}Pacotes quebrados reparados com sucesso.${NORMAL}"
+    echo -e "${CIANO}Pacotes quebrados reparados com sucesso.${NORMAL}"
 fi
 echo ""
 
@@ -95,7 +95,7 @@ if [ $? -ne 0 ]; then
     echo -e "${VERMELHO}Erro ao atualizar o sistema. Verifique a configuração ou os pacotes instalados.${NORMAL}"
     exit 1
 else
-    echo -e "${VERDE}Sistema atualizado com sucesso.${NORMAL}"
+    echo -e "${CIANO}Sistema atualizado com sucesso.${NORMAL}"
 fi
 echo ""
 
@@ -106,7 +106,7 @@ if [ $? -ne 0 ]; then
     echo -e "${VERMELHO}Erro ao remover pacotes baixados pelo APT.${NORMAL}"
     exit 1
 else
-    echo -e "${VERDE}Pacotes baixados removidos com sucesso.${NORMAL}"
+    echo -e "${CIANO}Pacotes baixados removidos com sucesso.${NORMAL}"
 fi
 echo ""
 
@@ -117,7 +117,7 @@ if [ $? -ne 0 ]; then
     echo -e "${VERMELHO}Erro ao remover pacotes incompletos.${NORMAL}"
     exit 1
 else
-    echo -e "${VERDE}Pacotes incompletos removidos com sucesso.${NORMAL}"
+    echo -e "${CIANO}Pacotes incompletos removidos com sucesso.${NORMAL}"
 fi
 echo ""
 
@@ -128,7 +128,7 @@ if [ $? -ne 0 ]; then
     echo -e "${VERMELHO}Erro ao remover dependências que não são mais necessárias pelo sistema.${NORMAL}"
     exit 1
 else
-    echo -e "${VERDE}Dependências desnecessárias removidas com sucesso.${NORMAL}"
+    echo -e "${CIANO}Dependências desnecessárias removidas com sucesso.${NORMAL}"
 fi
 echo ""
 
@@ -141,7 +141,7 @@ for programa in "${programas[@]}"; do
   if dpkg -s "$programa" > /dev/null 2>&1; then
     echo "$programa está instalado."
     # Tenta reinstalar para garantir a versão mais recente
-    echo -e "${VERDE}Reinstalando $programa para garantir a versão mais recente...${NORMAL}"
+    echo -e "${CIANO}Reinstalando $programa para garantir a versão mais recente...${NORMAL}"
     sudo apt install --reinstall -y "$programa"
   else
     echo -e "${VERMELHO}$programa não está instalado. Instalando...${NORMAL}"
