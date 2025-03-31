@@ -35,112 +35,123 @@
 #
 ################################################################################
 
+# Definição de códigos de cores ANSI
+VERMELHO='\033[0;31m'
+VERDE='\033[0;32m'
+AMARELO='\033[0;33m'
+AZUL='\033[0;34m'
+MAGENTA='\033[0;35m'
+CIANO='\033[0;36m'
+BRANCO='\033[0;37m'
+NEGRITO='\033[1m'
+NORMAL='\033[0m' # Reset para a cor padrão
+
 # 0. Verifica se o script está sendo executado como root
 if [ "$EUID" -ne 0 ]; then
-    echo "Erro: Este script deve ser executado como root."
+    echo -e "${VERMELHO}Erro: Este script deve ser executado como root.${NORMAL}"
     exit 1
 fi
 
 # 1. Verifica se existe conexao com a internet
 clear
-echo "1. Verificando conexão com a Internet..."
+echo -e "${AMARELO}${NEGRITO}1. Verificando conexão com a Internet...${NORMAL}"
 ping -c 2 google.com &> /dev/null #¹
 if [ $? -eq 0 ]; then #²
-    echo "Conexão com a Internet estável."
+    echo -e "${VERDE}Conexão com a Internet estável.${NORMAL}"
 else
-    echo "Sem conexão com a Internet. Verifique a rede e tente novamente."
+    echo -e "${VERMELHO}Sem conexão com a Internet. Verifique a rede e tente novamente.${NORMAL}"
     exit 1
 fi
 echo ""
 
 # 2. Atualiza o repositorio
-echo "2. Atualizando repositórios..."
+echo -e "${AMARELO}${NEGRITO}2. Atualizando repositórios...${NORMAL}"
 sudo apt update -y
 if [ $? -ne 0 ]; then
-    echo "Erro ao atualizar repositórios. Verifique a configuração do apt."
+    echo -e "${VERMELHO}Erro ao atualizar repositórios. Verifique a configuração do apt.${NORMAL}"
     exit 1
 else
-    echo "Repositórios atualizados com sucesso."
+    echo -e "${VERDE}Repositórios atualizados com sucesso.${NORMAL}"
 fi
 echo ""
 
 # 3. Repara pacotes quebrados
-echo "3. Reparando pacotes quebrados..."
+echo -e "${AMARELO}${NEGRITO}3. Reparando pacotes quebrados...${NORMAL}"
 sudo dpkg --configure -a
 sudo apt --fix-broken install
 if [ $? -ne 0 ]; then
-    echo "Erro ao reparar pacotes quebrados. Tente usar o comando: sudo dpkg --force-remove-reinstreq --remove <pacote>."
+    echo -e "${VERMELHO}Erro ao reparar pacotes quebrados. Tente usar o comando: sudo dpkg --force-remove-reinstreq --remove <pacote>.${NORMAL}"
     exit 1
 else
-    echo "Pacotes quebrados reparados com sucesso."
+    echo -e "${VERDE}Pacotes quebrados reparados com sucesso.${NORMAL}"
 fi
 echo ""
 
 # 4. Atualiza o sistema
-echo "4. Atualizando o sistema..."
+echo -e "${AMARELO}${NEGRITO}4. Atualizando o sistema...${NORMAL}"
 sudo apt upgrade -y
 # sudo apt dist-upgrade -y
 if [ $? -ne 0 ]; then
-    echo "Erro ao atualizar o sistema. Verifique a configuração ou os pacotes instalados."
+    echo -e "${VERMELHO}Erro ao atualizar o sistema. Verifique a configuração ou os pacotes instalados.${NORMAL}"
     exit 1
 else
-    echo "Sistema atualizado com sucesso."
+    echo -e "${VERDE}Sistema atualizado com sucesso.${NORMAL}"
 fi
 echo ""
 
 # 5. Remove pacotes baixados pelo APT
-echo "5. Removendos todos os pacotes baixados pelo APT..."
+echo -e "${AMARELO}${NEGRITO}5. Removendos todos os pacotes baixados pelo APT...${NORMAL}"
 sudo apt clean -y
 if [ $? -ne 0 ]; then
-    echo "Erro ao remover pacotes baixados pelo APT."
+    echo -e "${VERMELHO}Erro ao remover pacotes baixados pelo APT.${NORMAL}"
     exit 1
 else
-    echo "Pacotes baixados removidos com sucesso."
+    echo -e "${VERDE}Pacotes baixados removidos com sucesso.${NORMAL}"
 fi
 echo ""
 
 # 6. Remove pacotes que não tiveram seu download concluído
-echo "6. Removendo pacotes incompletos..."
+echo -e "${AMARELO}${NEGRITO}6. Removendo pacotes incompletos...${NORMAL}"
 sudo apt autoclean -y
 if [ $? -ne 0 ]; then
-    echo "Erro ao remover pacotes incompletos."
+    echo -e "${VERMELHO}Erro ao remover pacotes incompletos.${NORMAL}"
     exit 1
 else
-    echo "Pacotes incompletos removidos com sucesso."
+    echo -e "${VERDE}Pacotes incompletos removidos com sucesso.${NORMAL}"
 fi
 echo ""
 
 # 7. Remove dependências que não são mais necessárias pelo sistema
-echo "7. Removendo dependências que não são mais necessárias pelo sistema..."
+echo -e "${AMARELO}${NEGRITO}7. Removendo dependências que não são mais necessárias pelo sistema...${NORMAL}"
 sudo apt autoremove -y
 if [ $? -ne 0 ]; then
-    echo "Erro ao remover dependências que não são mais necessárias pelo sistema."
+    echo -e "${VERMELHO}Erro ao remover dependências que não são mais necessárias pelo sistema.${NORMAL}"
     exit 1
 else
-    echo "Dependências desnecessárias removidas com sucesso."
+    echo -e "${VERDE}Dependências desnecessárias removidas com sucesso.${NORMAL}"
 fi
 echo ""
 
 # 8 - Instala e atualiza programas específicos
 programas=("htop" "neofetch" "cmatrix")
 
-echo "8. Verificando e instalando/atualizando programas..."
+echo -e "${AMARELO}${NEGRITO}8. Verificando e instalando/atualizando programas...${NORMAL}"
 for programa in "${programas[@]}"; do
-  echo "Verificando o programa: $programa"
+  echo -e "${AMARELO}${NEGRITO}Verificando o programa: $programa${NORMAL}"
   if dpkg -s "$programa" > /dev/null 2>&1; then
     echo "$programa está instalado."
     # Tenta reinstalar para garantir a versão mais recente
-    echo "Reinstalando $programa para garantir a versão mais recente..."
+    echo -e "${VERDE}Reinstalando $programa para garantir a versão mais recente...${NORMAL}"
     sudo apt install --reinstall -y "$programa"
   else
-    echo "$programa não está instalado. Instalando..."
+    echo -e "${VERMELHO}$programa não está instalado. Instalando...${NORMAL}"
     sudo apt install -y "$programa"
   fi
 done
 echo ""
 
 # 9. Reinicia o sistema
-echo "9. Reiniciando o sistema em 10 segundos. Pressione Ctrl+C para cancelar."
+echo -e "${AMARELO}${NEGRITO}9. Reiniciando o sistema em 10 segundos. Pressione Ctrl+C para cancelar.${NORMAL}"
 sleep 10
 sudo reboot
 
