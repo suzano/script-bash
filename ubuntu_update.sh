@@ -38,7 +38,8 @@
 
 # Definição de códigos de cores ANSI
 H1='\033[1;34m'                 # Títulos (Azul)
-H2='\033[0;36m'                 # Subtítulos (Ciano)
+H2='\033[1;36m'                 # Subtítulos (Ciano)
+H3='\033[0;36m'                 # Subtítulos (Ciano)
 DEFAULT='\033[0m'               # Reset para a cor padrão
 
 # Ícones simples
@@ -142,7 +143,7 @@ function is_installed() {
 # Função para instalar um programa via APT
 function install_apt() {
     local program_name=$1
-    echo -e "${WARNING}Instalando $program_name via APT...${DEFAULT}"
+    echo -e "${H3}Instalando $program_name via APT...${DEFAULT}"
     sudo apt install -y "$program_name"
 }
 
@@ -152,8 +153,8 @@ function install_deb() {
     local download_url=$2
     local temp_dir=$(mktemp -d)
     
-    echo -e "${WARNING}Instalando $program_name via DEB...${DEFAULT}"
-    echo -e "${WARNING}Baixando pacote de $download_url${DEFAULT}"
+    echo -e "${H3}Instalando $program_name via DEB...${DEFAULT}"
+    echo -e "${H3}Baixando pacote de $download_url${DEFAULT}"
     
     # Baixa o arquivo .deb
     if ! wget "$download_url" -P "$temp_dir"; then
@@ -184,11 +185,11 @@ function install_deb() {
 # Função para instalar um programa via Flatpak
 function install_flatpak() {
     local program_name=$1
-    echo -e "${WARNING}Instalando $program_name via Flatpak...${DEFAULT}"
+    echo -e "${H3}Instalando $program_name via Flatpak...${DEFAULT}"
     
     # Verifica se o Flatpak está instalado
     if ! command -v flatpak &>/dev/null; then
-        echo -e "${WARNING}Flatpak não está instalado. Instalando...${DEFAULT}"
+        echo -e "${H3}Flatpak não está instalado. Instalando...${DEFAULT}"
         sudo apt install -y flatpak
         flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
         echo -e "${WARNING}Flatpak foi instalando com sucesso. Para funcionar corretamente, o sistema precisa ser reiniciado...${DEFAULT}"
@@ -202,11 +203,11 @@ function install_flatpak() {
 # Função para instalar um programa via Snap
 function install_snap() {
     local program_name=$1
-    echo -e "${WARNING}Instalando $program_name via Snap...${DEFAULT}"
+    echo -e "${H3}Instalando $program_name via Snap...${DEFAULT}"
     
     # Verifica se o Snap está instalado
     if ! command -v snap &>/dev/null; then
-        echo -e "${WARNING}Snap não está instalado. Instalando...${DEFAULT}"
+        echo -e "${H3}Snap não está instalado. Instalando...${DEFAULT}"
         sudo apt install -y snapd
     fi
     
@@ -218,8 +219,8 @@ function install_custom() {
     local program_name=$1
     local install_script=$2
         
-    echo -e "${WARNING}Instalando $program_name via comandos personalizados...${DEFAULT}"
-    echo -e "${WARNING}Executando os seguintes comandos:${DEFAULT}"
+    echo -e "${H3}Instalando $program_name via comandos personalizados...${DEFAULT}"
+    echo -e "${H3}Executando os seguintes comandos:${DEFAULT}"
         
     # Executa os comandos em um subshell
     (
@@ -240,7 +241,7 @@ function install_custom() {
 APT_PROGRAMS=(
     "wget"              # Web Get - usado para baixar arquivos da internet diretamente pelo terminal
     "curl"              # Client URL - usado para transferir dados de/para servidores
-    "git-all"               # Sistema de controle de versão distribuído (DVCS)
+    "git"               # Sistema de controle de versão distribuído (DVCS)
     "cmatrix"           # Simula o efeito Matrix no terminal
     "sl"                # Trem animado (ASCII art) que atravessa o terminal 
     "gnome-software-plugin-flatpak" # Suporte para a instalação e gerenciamento de aplicativos no formato Flatpak dentro do GNOME Software
@@ -280,7 +281,6 @@ FLATPAK_PROGRAMS=(
 # Programas para instalar via Snap (nome do pacote Snap)s
 SNAP_PROGRAMS=(
     "disk-space-saver"
-    "hollywood --classic"   # Simula uma tela de hacker hollywoodiano 
     "asciiquarium"         # Programa de terminal que exibe uma animação de um aquário usando caracteres ASCII 
 )
 
@@ -305,13 +305,13 @@ declare -A CUSTOM_PROGRAMS=(
     #sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin"
     
     # Docker-CE para Ubuntu 24.04
-    #["docker-ce"]="sudo apt-get install -y ca-certificates curl && \
-    #sudo install -m 0755 -d /etc/apt/keyrings && \
-    #sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
-    #sudo chmod a+r /etc/apt/keyrings/docker.asc && \
-    #echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"${UBUNTU_CODENAME:-$VERSION_CODENAME}\") stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-    #sudo apt-get update -y && \
-    #sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin"
+    ["docker-ce"]="sudo apt-get install -y ca-certificates curl && \
+    sudo install -m 0755 -d /etc/apt/keyrings && \
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
+    sudo chmod a+r /etc/apt/keyrings/docker.asc && \
+    echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"${UBUNTU_CODENAME:-$VERSION_CODENAME}\") stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+    sudo apt-get update -y && \
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin"
    
     # Portainer-CE - ferramenta de gerenciamento de contêineres de código aberto e leve, que oferece uma interface web intuitiva para administrar ambientes Docker, Docker Swarm, Kubernetes e Nomad
     #["portainer"]="
@@ -345,11 +345,11 @@ declare -A CUSTOM_PROGRAMS=(
 )
 # Atualiza a lista de pacotes antes de começar
 echo -e "${H1}5. Instalando e atualizando programas específicos...${DEFAULT}"
-
+CUSTOM_PROGRAMS
 # Instala programas via APT
 echo -e "${H2}Processando programas APT...${DEFAULT}"
 for program in "${APT_PROGRAMS[@]}"; do
-    echo -e "${WARNING}Verificando $program...${DEFAULT}"
+    echo -e "${H3}Verificando $program...${DEFAULT}"
     if ! is_installed "$program"; then
         install_apt "$program"
     else
@@ -361,7 +361,7 @@ done
 # Instala programas via DEB
 echo -e "${H2}Processando programas DEB...${DEFAULT}"
 for program in "${!DEB_PROGRAMS[@]}"; do
-    echo -e "${WARNING}Verificando $program...${DEFAULT}"
+    echo -e "${H3}Verificando $program...${DEFAULT}"
     if ! is_installed "$program"; then
         install_deb "$program" "${DEB_PROGRAMS[$program]}"
     else
@@ -373,7 +373,7 @@ done
 # Instala programas via Flatpak
 echo -e "${H2}Processando programas Flatpak...${DEFAULT}"
 for program in "${FLATPAK_PROGRAMS[@]}"; do
-    echo -e "${WARNING}Verificando $program...${DEFAULT}"
+    echo -e "${H3}Verificando $program...${DEFAULT}"
     if ! is_installed "$program"; then
         install_flatpak "$program"
     else
@@ -387,7 +387,7 @@ echo -e "${H2}Processando programas Snap...${DEFAULT}"
 for program in "${SNAP_PROGRAMS[@]}"; do
     # Extrai o nome do programa sem opções (caso tenha --classic etc)
     program_name=$(echo "$program" | awk '{print $1}')
-    echo -e "${WARNING}Verificando $program_name...${DEFAULT}"
+    echo -e "${H3}Verificando $program_name...${DEFAULT}"
     if ! is_installed "$program_name"; then
         install_snap "$program"
     else
@@ -399,7 +399,7 @@ done
 # Instala programas com método personalizado
 echo -e "${H2}Processando programas com instalação personalizada...${DEFAULT}"
 for program in "${!CUSTOM_PROGRAMS[@]}"; do
-    echo -e "${WARNING}Verificando $program...${DEFAULT}"
+    echo -e "${H3}Verificando $program...${DEFAULT}"
     if ! is_installed "$program"; then
         install_custom "$program" "${CUSTOM_PROGRAMS[$program]}"
     else
