@@ -1,15 +1,15 @@
 #!/bin/bash
 
 ################################################################################
-# Script Name:  debian_update.sh
-# Description:  Faz a atualizacao do Debian e limpeza dos pacotes baixados
+# Script Name:  ubuntu_update.sh
+# Description:  Faz a atualizacao do Ubuntu e limpeza dos pacotes baixados
 #               ou desnecessário para o sistema.
 # Author: Suzano Bitencourt
 # Date: 20/11/2024
 # Version: 1.0
 # License: GPL-3.0
 # Usage: 
-#   ./debian_update.sh
+#   ./ubuntu_update.sh
 #
 # Requirements:
 #   - O script deve ser executado com privilégios de superusuário (root).
@@ -29,7 +29,7 @@
 #   9. Reinicia o sistema
 #
 # Example:
-#   sudo ./debian_update.sh
+#   sudo ./ubuntu_update.sh
 #
 # Notes:
 #   - Nenhuma observacao ou erro relatado no funcionamento do script.
@@ -74,7 +74,7 @@ else
 fi
 echo ""
 
-# 2. Atualiza o repositorio
+# 2. Atualiza o repositório
 echo -e "${H1}2. Atualizando repositórios...${DEFAULT}"
 sudo apt update -y
 if [ $? -ne 0 ]; then
@@ -272,36 +272,34 @@ FLATPAK_PROGRAMS=(
     com.visualstudio.code           # Editor de código-fonte leve, porém poderoso, desenvolvido pela Microsoft
     io.github.aandrew_me.ytdn       # Ferramenta de linha de comando ou script usado para baixar vídeos do YouTube
     cc.arduino.IDE2                 # IDE para desenvolver projetos com Arduino
-    com.github.sdv43.whaler         # Fornece funcionalidade básica para o gerenciamento de contêineres Docker
 )
 
 # Programas para instalar via Snap (nome do pacote Snap)s
 SNAP_PROGRAMS=(
     "disk-space-saver"
     "hollywood --classic"   # Simula uma tela de hacker hollywoodiano 
-    #"asciiquarium"         # Programa de terminal que exibe uma animação de um aquário usando caracteres ASCII
-    
+    "asciiquarium"         # Programa de terminal que exibe uma animação de um aquário usando caracteres ASCII 
 )
 
 # Programas com instalação personalizada (nome + comandos)
 # Cada entrada é um array com o nome do programa seguido dos comandos
 declare -A CUSTOM_PROGRAMS=(
     # Asciiquarium - programa de terminal que exibe uma animação de um aquário usando caracteres ASCII
-    ["asciiquarium"]="sudo apt install libcurses-perl && \
-    wget -P /tmp http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz && \
-    tar -zxvf /tmp/asciiquarium.tar.gz -C /tmp/ && \
-    chmod +x /tmp/asciiquarium_1.1/asciiquarium && \
-    sudo cp /tmp/asciiquarium_1.1/asciiquarium /usr/local/bin/asciiquarium && \
-    sudo cpan Term::Animation -y" # Qualquer problema retire o -y do comando
+    #["asciiquarium"]="sudo apt install libcurses-perl && \
+    #wget -P /tmp http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz && \
+    #tar -zxvf /tmp/asciiquarium.tar.gz -C /tmp/ && \
+    #chmod +x /tmp/asciiquarium_1.1/asciiquarium && \
+    #sudo cp /tmp/asciiquarium_1.1/asciiquarium /usr/local/bin/asciiquarium && \
+    #sudo cpan Term::Animation -y" # Qualquer problema retire o -y do comando
 
     # Docker-CE para Debian 12
-    ["docker-ce"]="sudo apt install -y ca-certificates curl && \
-    sudo install -m 0755 -d /etc/apt/keyrings && \
-    sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc && \
-    sudo chmod a+r /etc/apt/keyrings/docker.asc && \
-    echo  \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-    sudo apt-get update -y && \
-    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin"
+    #["docker-ce"]="sudo apt install -y ca-certificates curl && \
+    #sudo install -m 0755 -d /etc/apt/keyrings && \
+    #sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc && \
+    #sudo chmod a+r /etc/apt/keyrings/docker.asc && \
+    #echo  \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+    #sudo apt-get update -y && \
+    #sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin"
     
     # Docker-CE para Ubuntu 24.04
     #["docker-ce"]="sudo apt-get install -y ca-certificates curl && \
@@ -313,36 +311,35 @@ declare -A CUSTOM_PROGRAMS=(
     #sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin"
    
     # Portainer-CE - ferramenta de gerenciamento de contêineres de código aberto e leve, que oferece uma interface web intuitiva para administrar ambientes Docker, Docker Swarm, Kubernetes e Nomad
-    ["portainer"]="
-    if docker ps -a --format '{{.Names}}' | grep -q 'portainer'; then  && \
-    echo \"Portainer está instalado como container Docker.\" && \
-		if docker ps --format '{{.Names}}' | grep -q 'portainer'; then && \
-			echo -e \"\nO Portainer está atualmente rodando.\" && \
-		else && \
-			echo -e \"\nO Portainer não está rodando no momento.\" && \
-		fi && \
-	else && \
-		echo -e \"\nO Portainer não está instalado.\" && \
-	fi && \
-		
-		docker volume create portainer_data
-		docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
-	fi
+    #["portainer"]="
+    #if docker ps -a --format '{{.Names}}' | grep -q 'portainer'; then  && \
+    #echo \"Portainer está instalado como container Docker.\" && \
+#		if docker ps --format '{{.Names}}' | grep -q 'portainer'; then && \
+#			echo -e \"\nO Portainer está atualmente rodando.\" && \
+#		else && \
+#			echo -e \"\nO Portainer não está rodando no momento.\" && \
+#		fi && \
+#	else && \
+#		echo -e \"\nO Portainer não está instalado.\" && \
+#	fi && \
+#		
+#		docker volume create portainer_data
+#		docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
+#	fi
 
 # Verifica se o Portainer CE está instalado via pacote (para sistemas que usam apt)
-if command -v apt &>/dev/null; then
-    if dpkg -l | grep -q 'portainer-ce'; then
-        echo -e "\nPortainer CE está instalado via pacote apt."
-    else
-        echo -e "\nPortainer CE não está instalado via pacote apt."
-    fi
-fi
-       docker volume create portainer_data
-    docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
-    " # Acesse: https://localhost:9443 Obs.: Por padrão, o Portainer gera e usa um certificado SSL auto-assinado para proteger a porta 9443. Se você precisar de porta HTTP por motivos legados, altere para a porta 9000.
-
+#if command -v apt &>/dev/null; then
+#    if dpkg -l | grep -q 'portainer-ce'; then
+#        echo -e "\nPortainer CE está instalado via pacote apt."
+#    else
+#        echo -e "\nPortainer CE não está instalado via pacote apt."
+#    fi
+#fi
+#       docker volume create portainer_data
+#    docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
+#   " # Acesse: https://localhost:9443 Obs.: Por padrão, o Portainer gera e usa um certificado SSL auto-assinado para proteger a porta 9443. Se você precisar de porta HTTP por #motivos legados, altere para a porta 9000.
+#
 )
-
 # Atualiza a lista de pacotes antes de começar
 echo -e "${H1}5. Instalando e atualizando programas específicos...${DEFAULT}"
 
