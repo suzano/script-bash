@@ -190,7 +190,10 @@ function install_flatpak() {
     if ! command -v flatpak &>/dev/null; then
         echo -e "${WARNING}Flatpak não está instalado. Instalando...${DEFAULT}"
         sudo apt install -y flatpak
-        flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+        flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+        echo -e "${WARNING}Flatpak foi instalando com sucesso. Para funcionar corretamente, o sistema precisa ser reiniciado...${DEFAULT}"
+        sleep 10
+        sudo reboot
     fi
     
     flatpak install flathub "$program_name" -y
@@ -237,7 +240,7 @@ function install_custom() {
 APT_PROGRAMS=(
     "wget"              # Web Get - usado para baixar arquivos da internet diretamente pelo terminal
     "curl"              # Client URL - usado para transferir dados de/para servidores
-    "git"               # Sistema de controle de versão distribuído (DVCS)
+    "git-all"               # Sistema de controle de versão distribuído (DVCS)
     "cmatrix"           # Simula o efeito Matrix no terminal
     "sl"                # Trem animado (ASCII art) que atravessa o terminal 
     "gnome-software-plugin-flatpak" # Suporte para a instalação e gerenciamento de aplicativos no formato Flatpak dentro do GNOME Software
