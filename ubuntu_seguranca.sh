@@ -311,9 +311,7 @@ declare -A CUSTOM_PROGRAMS=(
     sudo chmod a+r /etc/apt/keyrings/docker.asc && \
     echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"${UBUNTU_CODENAME:-$VERSION_CODENAME}\") stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
     sudo apt-get update -y && \
-    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin && \
-    sudo usermod -aG docker $USER && \
-    newgrp docker"
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin"
    
     # Portainer-CE - ferramenta de gerenciamento de contêineres de código aberto e leve, que oferece uma interface web intuitiva para administrar ambientes Docker, Docker Swarm, Kubernetes e Nomad
     #["portainer"]="
