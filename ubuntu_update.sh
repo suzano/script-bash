@@ -43,25 +43,32 @@ H3='\033[0;36m'                 # Subtítulos (Ciano)
 DEFAULT='\033[0m'               # Reset para a cor padrão
 
 # Ícones simples
-SUCCESS='\033[0;32m[\u2714]'    # Sucesso (Verde) SIMPLES
-ERROR='\033[0;31m[\u2718]'      # Erro (Vermelho) SIMPLES
-WARNING='\033[0;33m[\u2691]'    # Aviso (Amarelo) SIMPLES
+#SUCCESS='\033[0;32m[\u2714] '    # Sucesso (Verde) SIMPLES
+#ERROR='\033[0;31m[\u2718] '      # Erro (Vermelho) SIMPLES
+#WARNING='\033[0;33m[\u2691] '    # Aviso (Amarelo) SIMPLES
 
 # Ícones coloridos
-#SUCCESS='\033[0;32m\u2705'    # Sucesso (Verde) COLORIDO
-#ERROR='\033[0;31m\u26D4'      # Erro (Vermelho) COLORIDO
-#WARNING='\033[0;33m\u23F3'    # Aviso (Amarelo) COLORIDO
+#SUCCESS='\033[0;32m\u2705 '    # Sucesso (Verde) COLORIDO
+#ERROR='\033[0;31m\u26D4 '      # Erro (Vermelho) COLORIDO
+#WARNING='\033[0;33m\u23F3 '    # Aviso (Amarelo) COLORIDO
 
 # Ícones quadrados
-#SUCCESS='\033[0;32m\u2611'    # Sucesso (Verde) QUADRADO
-#ERROR='\033[0;31m\u2612'      # Erro (Vermelho) QUADRADO
-#WARNING='\033[0;33m\u2610'    # Aviso (Amarelo) QUADRADO
+#SUCCESS='\033[0;32m\u2611 '    # Sucesso (Verde) QUADRADO
+#ERROR='\033[0;31m\u2612 '      # Erro (Vermelho) QUADRADO
+#WARNING='\033[0;33m\u2610 '    # Aviso (Amarelo) QUADRADO
+
+# Ícones quadrados
+SUCCESS='\033[0;32m[+] '    # Sucesso (Verde) TEXTO
+ERROR='\033[0;31m[x] '      # Erro (Vermelho) TEXTO
+WARNING='\033[0;33m[!] '    # Aviso (Amarelo) TEXTO
+
+######################################################
 
 # 0. Verifica se o script está sendo executado como root
 if [ "$EUID" -ne 0 ]; then
     echo -e "${ERROR}Este script deve ser executado como root.${DEFAULT}"
     exit 1
-fi
+fi\u2610
 
 # 1. Verifica se existe conexao com a internet
 clear
