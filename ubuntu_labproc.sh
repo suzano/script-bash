@@ -75,6 +75,11 @@ INFO='\033[0;33m[*] '         # Informação (Amarelo)
 #WARNING='\033[0;33m[AVISO] '   # Aviso (Amarelo)
 #INFO='\033[0;33m[INFO] '       # Informação (Amarelo)
 
+######################## PRINCIPAL USUÁRIO DOS PACOTES #########################
+
+# Username do usuário dos programas 
+MAIN_USER = "suzano"
+
 ##################### PACOTES ESPECÍFICOS PARA INSTALAÇÃO ######################
 
 # Programas para instalar via APT (apenas nome do pacote)
@@ -112,11 +117,17 @@ APT_PROGRAMS=(
     "libsdl2-dev" # Biblioteca para desenvolvimento de jogos e multimídia (SDL2)
     "libmagic1t64" # Biblioteca para detecção do tipo de arquivo (usada pelo comando file)
     "python3-venv" # Módulo para criar ambientes virtuais Python isolados
+    "gnome-online-accounts" # Acessar Google Drive pelo Gnome
+    "iverilog" # Icarus Verilog é um compilador de código aberto para o Verilog HDL.
+    "gtkwave" # O GTKWave é um visualizador de waveform que trabalha perfeitamente com o Icarus Verilog para exibir resultados de simulação.
+    "ghdl" # O GHDL é um simulador e compilador de VHDL, uma linguagem de descrição de hardware.
+    "gnat" # O GNAT é um compilador de software livre para a linguagem de programação Ada.
+    "llvm" # O LLVM é um kit de desenvolvimento de compiladores, para compilarem o código para um executável de várias plataformas sem terem que escrever Assembly à mão.
+    "clang" # Clang é um compilador C/C++/Objective C//CUDA baseado em LLVM.
 )
 
 # Programas para instalar via DEB (nome do programa + URL do .deb)
 declare -A DEB_PROGRAMS=(
-    ["google-chrome"]="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
     ["balena-etcher"]="https://github.com/balena-io/etcher/releases/download/v2.1.0/balena-etcher_2.1.0_amd64.deb"
     ["textmaker24"]="https://www.freeoffice.com/download.php?filename=https://www.softmaker.net/down/softmaker-freeoffice-2024_1224-01_amd64.deb"
 )
@@ -134,6 +145,7 @@ FLATPAK_PROGRAMS=(
     io.github.aandrew_me.ytdn # Ferramenta de linha de comando ou script usado para baixar vídeos do YouTube
     cc.arduino.IDE2 # IDE para desenvolver projetos com Arduino
     com.google.Chrome # Navegador do Google que combina um design minimalista com tecnologia sofisticada
+    org.qbittorrent.qBittorrent #
 )
 
 # Programas para instalar via Snap (nome do pacote Snap)s
@@ -152,8 +164,13 @@ declare -A CUSTOM_PROGRAMS=(
     echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"${UBUNTU_CODENAME:-$VERSION_CODENAME}\") stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
     sudo apt-get update -y && \
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin && \
-    sudo usermod -aG docker $USER && \
+    sudo usermod -aG docker $MAIN_USER && \
     newgrp docker"
+    
+    ["quartus"]="wget -P /tmp https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/qinst/qinst-lite-linux-24.1std-1077.run && \
+    sudo chmod +x /tmp/qinst-lite-linux-24.1std-1077.run && \
+    sudo -H -u $MAIN_USER bash -c /tmp/qinst-lite-linux-24.1std-1077.run && \
+    sudo echo -e '[Desktop Entry]\nType=Application\nName=Quartus\nGenericName=quartus\nComment=IDE vhdl\nExec=/home/$MAIN_USER/intelFPGA_lite/24.1std/quartus/bin/quartus\nIcon=/home/$MAIN_USER/intelFPGA_lite/24.1std/quartus/adm/quartusii.png\nTerminal=false\nCategories=Development;IDE;Electronics;\nKeywords=embedded electronics;electronics;avr;microcontroller;\nStartupWMClass=processing-app-Base' | sudo tee /usr/share/applications/quartus24.desktop >/dev/null"
 )
 
 ############################## ADIÇÃO DE USUÁRIOS ##############################
@@ -308,6 +325,10 @@ function is_installed() {
     fi
     # Verifica via snap
     if command -v snap &>/dev/null && snap list | grep -q "$program_name"; then
+        return 0
+    fi
+    # Verifica via diretório de aplicativos
+    if ls /usr/share/applications/"$program_name"*.desktop &>/dev/null; then
         return 0
     fi
     # Se não encontrado em nenhum dos métodos acima
