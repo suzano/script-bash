@@ -40,9 +40,12 @@
 ################################## FORMATAÇÃO ##################################
 
 # Definição de códigos de cores ANSI
-H1='\033[1;34m'               # Títulos (Azul)
-H2='\033[1;36m'             # Subtítulos (Ciano)
-H3='\033[0;36m'           # Subtítulos (Ciano)
+H1='\033[1;34m'               # Títulos (Azul) - Nível 1
+H2='\033[1;36m  '             # Subtítulos (Ciano) - Nível 2 (2 espaços)
+H3='\033[0;36m    '           # Subtítulos (Ciano) - Nível 3 (4 espaços)
+H4='\033[0;35m      '         # Roxo claro - Nível 4 (6 espaços)
+H5='\033[0;35m        '       # Roxo - Nível 5 (8 espaços)
+H6='\033[0;37m          '     # Cinza claro - Nível 6 (10 espaços)
 DEFAULT='\033[0m'             # Cor padrão
 
 # Ícones simples
@@ -124,6 +127,11 @@ APT_PROGRAMS=(
     "gnat" # O GNAT é um compilador de software livre para a linguagem de programação Ada.
     "llvm" # O LLVM é um kit de desenvolvimento de compiladores, para compilarem o código para um executável de várias plataformas sem terem que escrever Assembly à mão.
     "clang" # Clang é um compilador C/C++/Objective C//CUDA baseado em LLVM.
+    "ufw"
+    "gufw"
+    "synaptic"
+    "libpam-google-authenticator"
+    "libpam-oath"
 )
 
 # Programas para instalar via DEB (nome do programa + URL do .deb)
@@ -263,7 +271,7 @@ function update_system() {
         echo -e "${H2}Instalando atualizações disponíveis...${DEFAULT}"
         sudo apt upgrade -y
         sudo apt autoremove -y  # Remove pacotes não utilizados
-        #sudo apt dist-upgrade -y # Atualiza o sistema com todas as atualizações disponíveis, inclusive aquelas que exigem a remoção ou instalação de novos pacotes
+        sudo apt dist-upgrade -y # Atualiza o sistema com todas as atualizações disponíveis, inclusive aquelas que exigem a remoção ou instalação de novos pacotes
         echo -e "${SUCCESS}Sistema atualizado com sucesso.${DEFAULT}"
     else
         echo -e "${ERROR}Erro ao atualizar o sistema. Verifique a configuração ou os pacotes instalados.${DEFAULT}"
