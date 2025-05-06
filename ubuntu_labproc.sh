@@ -81,7 +81,7 @@ INFO='\033[0;33m[*] '         # Informação (Amarelo)
 ######################## PRINCIPAL USUÁRIO DOS PACOTES #########################
 
 # Username do usuário dos programas 
-MAIN_USER = "suzano"
+MAIN_USER='suzano'
 
 ##################### PACOTES ESPECÍFICOS PARA INSTALAÇÃO ######################
 
@@ -95,43 +95,48 @@ APT_PROGRAMS=(
     "gparted" # GNOME Partition Editor - utilitário gráfico livre para gerenciar partições de disco
     "perl" # Perl é uma família de duas linguagens de programação de alto nível, Perl 5 e Perl 6 (renomeada para Raku)
     "build-essential" # Contém uma coleção de pacotes que são considerados essenciais para compilar software a partir do código-fonte
-    "libspreadsheet-writeexcel-perl" # Módulo Perl que permite criar e escrever arquivos no formato binário do Microsoft Excel (.xls)
-    "libcurses-perl" # Módulo para a linguagem Perl que fornece uma interface para a biblioteca curses (API que permite criar interfaces de texto interativas (TUI) em ambientes de terminal
+    #"libspreadsheet-writeexcel-perl" # Módulo Perl que permite criar e escrever arquivos no formato binário do Microsoft Excel (.xls)
+    #"libcurses-perl" # Módulo para a linguagem Perl que fornece uma interface para a biblioteca curses (API que permite criar interfaces de texto interativas (TUI) em ambientes de terminal
     "htop" # Monitor interativo de processos para o terminal
     "neofetch" # Exibe informações do sistema no terminal
     "clamav" # Software antivírus de código aberto utilizado para detectar e eliminar malware, como vírus e trojans
-    "cmake" # Ferramenta de build para gerar scripts de compilação
-    "ninja-build" # Sistema de build rápido e minimalista
-    "gperf" # Gerador de funções hash perfeitas
-    "ccache" # Cache para compiladores, acelera recompilações
-    "dfu-util" # Ferramenta para atualizar firmware via DFU (Device Firmware Upgrade)
-    "device-tree-compiler" # Compilador de Device Tree (arquivos .dts para .dtb)
-    "python3-dev" # Arquivos de desenvolvimento para Python 3 (cabeçalhos e bibliotecas)
-    "python3-pip" # Gerenciador de pacotes para Python
-    "python3-setuptools" # Ferramentas para instalar e gerenciar pacotes Python
-    "python3-tk" # Biblioteca Tkinter para interfaces gráficas em Python
-    "python3-wheel" # Formato de distribuição para pacotes Python
-    "xz-utils" # Utilitários para compactação/descompactação .xz e .lzma
-    "file" # Determina o tipo de arquivo usando "magic numbers"
-    "make" # Ferramenta para automatizar a compilação de programas
-    "gcc" # Compilador C padrão (GNU Compiler Collection).
-    "gcc-multilib" # Suporte para compilar para múltiplas arquiteturas (32/64 bits)
-    "g++-multilib" # Versão do GCC para C++ com suporte multilib
-    "libsdl2-dev" # Biblioteca para desenvolvimento de jogos e multimídia (SDL2)
+    #"cmake" # Ferramenta de build para gerar scripts de compilação
+    #"ninja-build" # Sistema de build rápido e minimalista
+    #"gperf" # Gerador de funções hash perfeitas
+    #"ccache" # Cache para compiladores, acelera recompilações
+    #"dfu-util" # Ferramenta para atualizar firmware via DFU (Device Firmware Upgrade)
+    #"device-tree-compiler" # Compilador de Device Tree (arquivos .dts para .dtb)
+    #"python3-dev" # Arquivos de desenvolvimento para Python 3 (cabeçalhos e bibliotecas)
+    #"python3-pip" # Gerenciador de pacotes para Python
+    #"python3-setuptools" # Ferramentas para instalar e gerenciar pacotes Python
+    #"python3-tk" # Biblioteca Tkinter para interfaces gráficas em Python
+    #"python3-wheel" # Formato de distribuição para pacotes Python
+    #"xz-utils" # Utilitários para compactação/descompactação .xz e .lzma
+    #"file" # Determina o tipo de arquivo usando "magic numbers"
+    #"make" # Ferramenta para automatizar a compilação de programas
+    #"gcc" # Compilador C padrão (GNU Compiler Collection).
+    #"gcc-multilib" # Suporte para compilar para múltiplas arquiteturas (32/64 bits)
+    #"g++-multilib" # Versão do GCC para C++ com suporte multilib
+    #"libsdl2-dev" # Biblioteca para desenvolvimento de jogos e multimídia (SDL2)
     "libmagic1t64" # Biblioteca para detecção do tipo de arquivo (usada pelo comando file)
-    "python3-venv" # Módulo para criar ambientes virtuais Python isolados
-    "gnome-online-accounts" # Acessar Google Drive pelo Gnome
-    "iverilog" # Icarus Verilog é um compilador de código aberto para o Verilog HDL.
-    "gtkwave" # O GTKWave é um visualizador de waveform que trabalha perfeitamente com o Icarus Verilog para exibir resultados de simulação.
-    "ghdl" # O GHDL é um simulador e compilador de VHDL, uma linguagem de descrição de hardware.
-    "gnat" # O GNAT é um compilador de software livre para a linguagem de programação Ada.
-    "llvm" # O LLVM é um kit de desenvolvimento de compiladores, para compilarem o código para um executável de várias plataformas sem terem que escrever Assembly à mão.
-    "clang" # Clang é um compilador C/C++/Objective C//CUDA baseado em LLVM.
+    #"python3-venv" # Módulo para criar ambientes virtuais Python isolados
+    #"gnome-online-accounts" # Acessar Google Drive pelo Gnome
+    #"iverilog" # Icarus Verilog é um compilador de código aberto para o Verilog HDL.
+    #"gtkwave" # O GTKWave é um visualizador de waveform que trabalha perfeitamente com o Icarus Verilog para exibir resultados de simulação.
+    #"ghdl" # O GHDL é um simulador e compilador de VHDL, uma linguagem de descrição de hardware.
+    #"gnat" # O GNAT é um compilador de software livre para a linguagem de programação Ada.
+    #"llvm" # O LLVM é um kit de desenvolvimento de compiladores, para compilarem o código para um executável de várias plataformas sem terem que escrever Assembly à mão.
+    #"clang" # Clang é um compilador C/C++/Objective C//CUDA baseado em LLVM.
     "ufw"
     "gufw"
-    "synaptic"
-    "libpam-google-authenticator"
-    "libpam-oath"
+    #"synaptic"
+    #"libpam-google-authenticator"
+    #"libpam-oath"
+    #"rclone"
+    #"libpam-tmpdir" # Sua principal função é garantir que cada usuário tenha um diretório temporário (/tmp privado) isolado e com permissões adequadas.
+    #"apt-listbugs" # Ferramenta que verifica bugs críticos conhecidos em pacotes antes de instalá-los via apt/apt-get.
+    #"apt-listchanges" # Ferramenta que exibe as mudanças significativas (changelogs, correções de bugs, novas funcionalidades ou avisos importantes) em pacotes antes de serem instalados via apt/apt-get.
+    #"needrestart" # Ferramenta que verifica se serviços ou o sistema inteiro precisam ser reiniciados após atualizações de pacotes.
 )
 
 # Programas para instalar via DEB (nome do programa + URL do .deb)
@@ -172,23 +177,23 @@ declare -A CUSTOM_PROGRAMS=(
     echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"${UBUNTU_CODENAME:-$VERSION_CODENAME}\") stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
     sudo apt-get update -y && \
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin && \
-    sudo usermod -aG docker $MAIN_USER && \
+    sudo usermod -aG docker ${MAIN_USER} && \
     newgrp docker"
     
-    ["quartus"]="wget -P /tmp https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/qinst/qinst-lite-linux-24.1std-1077.run && \
-    sudo chmod +x /tmp/qinst-lite-linux-24.1std-1077.run && \
-    sudo -H -u $MAIN_USER bash -c /tmp/qinst-lite-linux-24.1std-1077.run && \
-    sudo echo -e '[Desktop Entry]\nType=Application\nName=Quartus\nGenericName=quartus\nComment=IDE vhdl\nExec=/home/$MAIN_USER/intelFPGA_lite/24.1std/quartus/bin/quartus\nIcon=/home/$MAIN_USER/intelFPGA_lite/24.1std/quartus/adm/quartusii.png\nTerminal=false\nCategories=Development;IDE;Electronics;\nKeywords=embedded electronics;electronics;avr;microcontroller;\nStartupWMClass=processing-app-Base' | sudo tee /usr/share/applications/quartus24.desktop >/dev/null"
+    #["quartus"]="wget -P /home/${MAIN_USER}/Downloads/ https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/qinst/qinst-lite-linux-24.1std-1077.run && \
+    #sudo chmod +x /home/${MAIN_USER}/Downloads/qinst-lite-linux-24.1std-1077.run && \
+    #sudo -H -u ${MAIN_USER} bash -c /home/${MAIN_USER}/Downloads/qinst-lite-linux-24.1std-1077.run && \
+    #sudo echo -e '[Desktop Entry]\nType=Application\nName=Quartus\nGenericName=quartus\nComment=IDE vhdl\nExec=/home/${MAIN_USER}/intelFPGA_lite/24.1std/quartus/bin/quartus\nIcon=/home/${MAIN_USER}/intelFPGA_lite/24.1std/quartus/adm/quartusii.png\nTerminal=false\nCategories=Development;IDE;Electronics;\nKeywords=embedded electronics;electronics;avr;microcontroller;\nStartupWMClass=processing-app-Base' | sudo tee /usr/share/applications/quartus24.desktop >/dev/null"
 )
 
 ############################## ADIÇÃO DE USUÁRIOS ##############################
 
 # Configurações do usuário
-USERNAME="labproc-pcs"
-USER_FULLNAME="LABPROC-PCS"
-PASSWORD="PCS"
-USER_SHELL="/bin/bash"
-USER_GROUPS="sudo"
+#USERNAME="labproc-pcs"
+#USER_FULLNAME="LABPROC-PCS"
+#PASSWORD="PCS"
+#USER_SHELL="/bin/bash"
+#USER_GROUPS="sudo"
 
 ################################### FUNÇÕES ####################################
 
